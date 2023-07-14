@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hra-service-deployment
+  labels:
+    app: hra-app
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hra-app
+  template:
+    metadata:
+      labels:
+        app: hra-app
+    spec:
+      containers:
+      - name: hra-container
+        image: sowmyakurapati13/hra
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hra-service
+spec:
+  selector:
+    app: hra-app
+  ports:
+    - protocol: "TCP"
+      port: 8080
+      targetPort: 8080
